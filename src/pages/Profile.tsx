@@ -13,6 +13,9 @@ import { User, GraduationCap, MapPin, Euro, Calendar, Home, Edit, Save, X } from
 import { supabase } from "@/lib/supabase";
 import { toast } from "@/components/ui/sonner";
 import { addUserToGoogleSheet, formatUserDataForSheet } from "@/services/googleSheetsService";
+import NationalitySelect from "@/components/profile/NationalitySelect";
+import InterestsSelect from "@/components/profile/InterestsSelect";
+import LanguagesSelect from "@/components/profile/LanguagesSelect";
 
 interface ProfileData {
   full_name?: string;
@@ -476,7 +479,7 @@ const Profile = () => {
               </CardContent>
             </Card>
 
-            {/* About You Section */}
+            {/* About You Section - Updated */}
             <Card className="md:col-span-2">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -487,39 +490,48 @@ const Profile = () => {
               <CardContent className="space-y-4">
                 <div className="grid md:grid-cols-3 gap-4">
                   <div className="space-y-2">
-                    <Label>Nationality</Label>
                     {isEditing ? (
-                      <Input
+                      <NationalitySelect
                         value={editData.nationality || ''}
-                        onChange={(e) => handleInputChange('nationality', e.target.value)}
-                        placeholder="e.g. Dutch, German, Spanish"
+                        onChange={(value) => handleInputChange('nationality', value)}
+                        label="Nationality"
+                        placeholder="Select nationality"
                       />
                     ) : (
-                      <p className="text-gray-700">{profile.nationality || 'Not provided'}</p>
+                      <>
+                        <Label>Nationality</Label>
+                        <p className="text-gray-700">{profile.nationality || 'Not provided'}</p>
+                      </>
                     )}
                   </div>
                   <div className="space-y-2">
-                    <Label>Languages Spoken</Label>
                     {isEditing ? (
-                      <Input
-                        value={editData.languages_spoken?.join(', ') || ''}
-                        onChange={(e) => handleInputChange('languages_spoken', e.target.value.split(', ').filter(lang => lang.trim()))}
-                        placeholder="e.g. English, Dutch, German"
+                      <LanguagesSelect
+                        value={editData.languages_spoken || []}
+                        onChange={(value) => handleInputChange('languages_spoken', value)}
+                        label="Languages Spoken"
+                        placeholder="Select languages"
                       />
                     ) : (
-                      <p className="text-gray-700">{profile.languages_spoken?.join(', ') || 'Not provided'}</p>
+                      <>
+                        <Label>Languages Spoken</Label>
+                        <p className="text-gray-700">{profile.languages_spoken?.join(', ') || 'Not provided'}</p>
+                      </>
                     )}
                   </div>
                   <div className="space-y-2">
-                    <Label>Interests</Label>
                     {isEditing ? (
-                      <Input
-                        value={editData.interests || ''}
-                        onChange={(e) => handleInputChange('interests', e.target.value)}
-                        placeholder="e.g. Travel, Photography, Sports"
+                      <InterestsSelect
+                        value={editData.interests ? editData.interests.split(', ').filter(i => i.trim()) : []}
+                        onChange={(value) => handleInputChange('interests', value.join(', '))}
+                        label="Interests"
+                        placeholder="Select interests"
                       />
                     ) : (
-                      <p className="text-gray-700">{profile.interests || 'Not provided'}</p>
+                      <>
+                        <Label>Interests</Label>
+                        <p className="text-gray-700">{profile.interests || 'Not provided'}</p>
+                      </>
                     )}
                   </div>
                 </div>
