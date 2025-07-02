@@ -21,7 +21,7 @@ import {
 import { Menu, ArrowRightLeft, User, LogOut, UserCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/components/ui/sonner';
 
 const Navbar = () => {

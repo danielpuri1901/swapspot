@@ -1,6 +1,6 @@
 
 import { toast } from "@/components/ui/sonner";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/integrations/supabase/client";
 
 /**
  * Send a verification email to the user's email address
