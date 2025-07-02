@@ -81,10 +81,36 @@ const Profile = () => {
         setProfile(profileData);
         // Set edit data to be read-only initially - fields are auto-filled from onboarding
         setEditData(profileData);
+        
+        // Check if profile is incomplete and suggest onboarding
+        if (!profileData.university || !profileData.program) {
+          toast.info("Complete your profile setup", {
+            description: "Finish the onboarding process to add more details to your profile."
+          });
+        }
       } else {
-        console.log('No profile found, user may need to complete onboarding');
-        toast.error('Please complete the onboarding process first.');
-        navigate('/onboarding');
+        // Create minimal profile for new users
+        const minimalProfile = {
+          full_name: session.user.user_metadata?.full_name || '',
+          email: session.user.email || '',
+          university: null,
+          exchange_university: null,
+          program: null,
+          current_location: null,
+          current_address: null,
+          start_date: null,
+          end_date: null,
+          budget: null,
+          apartment_description: null,
+          nationality: null,
+          languages_spoken: null,
+          interests: null
+        };
+        setProfile(minimalProfile);
+        setEditData(minimalProfile);
+        toast.info("Welcome! Complete your profile", {
+          description: "Add more details to your profile or complete the full onboarding process."
+        });
       }
     } catch (error) {
       console.error('Auth error:', error);
@@ -166,17 +192,27 @@ const Profile = () => {
         <Navbar />
         <main className="flex-grow flex items-center justify-center">
           <div className="text-center max-w-md">
-            <Alert>
-              <AlertDescription>
-                No profile data found. Please complete the onboarding process first.
+            <Alert className="border-blue-200 bg-blue-50">
+              <AlertDescription className="text-blue-800">
+                <strong>Welcome to SwapSpot!</strong><br />
+                Complete your profile setup to get started with housing exchanges.
               </AlertDescription>
             </Alert>
-            <Button 
-              onClick={() => navigate('/onboarding')} 
-              className="mt-4"
-            >
-              Complete Onboarding
-            </Button>
+            <div className="mt-6 space-y-3">
+              <Button 
+                onClick={() => navigate('/onboarding')} 
+                className="w-full bg-swap-blue hover:bg-swap-darkBlue"
+              >
+                Complete Full Onboarding
+              </Button>
+              <Button 
+                variant="outline"
+                onClick={() => window.location.reload()} 
+                className="w-full"
+              >
+                Refresh Page
+              </Button>
+            </div>
           </div>
         </main>
         <Footer />
@@ -190,7 +226,14 @@ const Profile = () => {
       <main className="flex-grow py-8">
         <div className="max-w-4xl mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
-            <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
+              {(!profile.university || !profile.program) && (
+                <p className="text-sm text-blue-600 mt-1">
+                  💡 Complete onboarding to auto-fill your profile details
+                </p>
+              )}
+            </div>
             {!isEditing ? (
               <Button 
                 onClick={() => setIsEditing(true)}
@@ -221,6 +264,26 @@ const Profile = () => {
               </div>
             )}
           </div>
+
+          {/* Onboarding CTA */}
+          {(!profile.university || !profile.program) && (
+            <div className="mb-6">
+              <Alert className="border-blue-200 bg-blue-50">
+                <AlertDescription className="flex items-center justify-between text-blue-800">
+                  <span>
+                    <strong>Complete your setup:</strong> Go through onboarding to auto-fill university, program, dates, and preferences
+                  </span>
+                  <Button 
+                    size="sm" 
+                    onClick={() => navigate('/onboarding')}
+                    className="ml-4 bg-blue-600 hover:bg-blue-700"
+                  >
+                    Complete Onboarding
+                  </Button>
+                </AlertDescription>
+              </Alert>
+            </div>
+          )}
 
           <div className="grid md:grid-cols-2 gap-6">
             {/* Personal Information */}

@@ -65,7 +65,7 @@ const AuthCallback = () => {
           
           // Give user a moment to see the success message before redirecting
           setTimeout(() => {
-            navigate("/account", { replace: true });
+            navigate("/profile", { replace: true });
           }, 2000);
         } else {
           console.error("No session or user data received");
