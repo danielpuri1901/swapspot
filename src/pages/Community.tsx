@@ -34,7 +34,7 @@ import CommunityChat from "@/components/CommunityChat";
 import ConnectForums from "@/components/ConnectForums";
 import { useState, useEffect } from "react";
 import { useSubscription } from "@/contexts/SubscriptionContext";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/integrations/supabase/client";
 
 const Community = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);

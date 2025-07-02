@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { UserPlus, User, Mail, Lock, CheckCircle } from "lucide-react";
 import { OnboardingData } from "./OnboardingFlow";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/components/ui/sonner";
 import { addUserToGoogleSheet, formatUserDataForSheet } from "@/services/googleSheetsService";
 

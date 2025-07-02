@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { User, GraduationCap, MapPin, Euro, Calendar, Home, Edit, Save, X } from "lucide-react";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/components/ui/sonner";
 import { addUserToGoogleSheet, formatUserDataForSheet } from "@/services/googleSheetsService";
 import NationalitySelect from "@/components/profile/NationalitySelect";

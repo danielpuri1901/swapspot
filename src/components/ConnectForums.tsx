@@ -18,7 +18,7 @@ import {
   MessageCircle
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import CityChat from "./CityChat";
 

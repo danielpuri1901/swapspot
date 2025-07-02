@@ -13,7 +13,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { useSubscription } from "@/contexts/SubscriptionContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/components/ui/sonner";
 
 interface MessagingDialogProps {

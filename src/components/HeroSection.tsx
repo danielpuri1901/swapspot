@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, Users, MapPin, Shield } from "lucide-react";
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/integrations/supabase/client";
 import { User } from "@supabase/supabase-js";
 import heroImage from "@/assets/hero-students.jpg";
 

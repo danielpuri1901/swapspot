@@ -9,7 +9,7 @@ import SwapCompatibilityIndicator from "../SwapCompatibilityIndicator";
 import { saveOnboardingData } from "@/utils/excelExport";
 import { useToast } from "@/hooks/use-toast";
 import { formatUserDataForSheet } from "@/services/googleSheetsService";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/integrations/supabase/client";
 
 interface MatchesStepProps {
   data: OnboardingData;

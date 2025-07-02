@@ -8,7 +8,7 @@ import ProofOfEnrollmentStep from "./ProofOfEnrollmentStep";
 import AccountCreationStep from "./AccountCreationStep";
 import CompletionStep from "./CompletionStep";
 import { loadUserProfile } from "@/services/emailService";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/integrations/supabase/client";
 
 export interface OnboardingData {
   fullName?: string;
@@ -87,7 +87,7 @@ const OnboardingFlow = () => {
               budget: profile.budget || '',
               preferredDestinations: profile.preferred_destinations || [],
               apartmentDescription: profile.apartment_description || '',
-              verificationMethod: profile.verification_method || 'email',
+              verificationMethod: (profile.verification_method as 'email' | 'id') || 'email',
               universityEmail: profile.university_email || '',
               additionalInfo: profile.additional_info || '',
               hasUploadedProof: profile.has_uploaded_proof || false,
