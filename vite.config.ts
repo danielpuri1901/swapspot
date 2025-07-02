@@ -27,5 +27,15 @@ export default defineConfig(({ mode }) => ({
     commonjsOptions: {
       include: [/mapbox-gl/, /node_modules/],
     },
-  }
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          supabase: ['@supabase/supabase-js'],
+          ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu'],
+        },
+      },
+    },
+    sourcemap: true,
+  },
 }));

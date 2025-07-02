@@ -20,7 +20,14 @@ import HelpTips from "./pages/HelpTips";
 import About from "./pages/About";
 import AlreadyRegistered from "./pages/AlreadyRegistered";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      retry: 1,
+    },
+  },
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
