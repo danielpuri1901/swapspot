@@ -60,12 +60,12 @@ const AuthCallback = () => {
           setStatus("success");
           
           toast.success("Email verified successfully!", {
-            description: "Welcome to SwapSpot! Redirecting to community..."
+            description: "Welcome to SwapSpot! Redirecting to your profile..."
           });
           
           // Give user a moment to see the success message before redirecting
           setTimeout(() => {
-            navigate("/community", { replace: true });
+            navigate("/account", { replace: true });
           }, 2000);
         } else {
           console.error("No session or user data received");

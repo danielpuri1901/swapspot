@@ -13,8 +13,8 @@ export const sendVerificationEmail = async (email: string): Promise<boolean> => 
     // Use the current window location for redirection
     const currentOrigin = window.location.origin;
     
-    // Redirect to the verify page in our app
-    const redirectTo = `${currentOrigin}/verify`;
+    // Redirect to the auth callback page for automatic login
+    const redirectTo = `${currentOrigin}/auth/callback`;
     console.log("Setting redirect URL to:", redirectTo);
     
     // Send the OTP via email

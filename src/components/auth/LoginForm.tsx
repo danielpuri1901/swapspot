@@ -35,7 +35,11 @@ const LoginForm = ({ onBack }: LoginFormProps) => {
           email,
           password,
           options: {
-            emailRedirectTo: redirectUrl
+            emailRedirectTo: redirectUrl,
+            data: {
+              app_name: "SwapSpot",
+              signup_timestamp: new Date().toISOString(),
+            }
           }
         });
 
