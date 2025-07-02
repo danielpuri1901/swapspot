@@ -19,6 +19,7 @@ import HowItWorksPage from "./pages/HowItWorks";
 import HelpTips from "./pages/HelpTips";
 import About from "./pages/About";
 import AlreadyRegistered from "./pages/AlreadyRegistered";
+import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -51,6 +52,7 @@ const App = () => (
             <Route path="/help-tips" element={<HelpTips />} />
             <Route path="/about" element={<About />} />
             <Route path="/already-registered" element={<AlreadyRegistered />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>

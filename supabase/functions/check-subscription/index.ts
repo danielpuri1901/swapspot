@@ -19,16 +19,10 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
-  // Use the service role key to perform writes (upsert) in Supabase
-  const supabaseClient = createClient(
-    Deno.env.get("SUPABASE_URL") ?? "",
-    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
-    { auth: { persistSession: false } }
-  );
-
   try {
     logStep("Function started");
 
+    // Always return a successful response, even if Stripe is not configured
     const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
     if (!stripeKey) {
       logStep("No Stripe key found, returning free tier");
@@ -37,7 +31,6 @@ serve(async (req) => {
         status: 200,
       });
     }
-    logStep("Stripe key verified");
 
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
@@ -47,7 +40,22 @@ serve(async (req) => {
         status: 200,
       });
     }
-    logStep("Authorization header found");
+
+    // Use the service role key for database operations
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+    
+    if (!supabaseUrl || !supabaseServiceKey) {
+      logStep("Missing Supabase configuration, returning free tier");
+      return new Response(JSON.stringify({ subscribed: false, subscription_tier: 'free' }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 200,
+      });
+    }
+
+    const supabaseClient = createClient(supabaseUrl, supabaseServiceKey, {
+      auth: { persistSession: false }
+    });
 
     const token = authHeader.replace("Bearer ", "");
     logStep("Authenticating user with token");
@@ -141,8 +149,9 @@ serve(async (req) => {
     });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
-    logStep("ERROR in check-subscription", { message: errorMessage });
-    // Return free tier instead of throwing error
+    logStep("ERROR in check-subscription", { message: errorMessage, stack: error instanceof Error ? error.stack : undefined });
+    
+    // Always return 200 with free tier instead of 500 error
     return new Response(JSON.stringify({ 
       subscribed: false, 
       subscription_tier: 'free',
