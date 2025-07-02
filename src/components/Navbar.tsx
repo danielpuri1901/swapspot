@@ -29,18 +29,7 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
-
-  // Handle scroll effect
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   useEffect(() => {
     // Get initial session
@@ -90,17 +79,12 @@ const Navbar = () => {
   };
 
   return (
-    <div className={cn(
-      "sticky top-0 z-50 transition-all duration-300 ease-in-out",
-      isScrolled 
-        ? "bg-white/95 backdrop-blur-md border-b border-border/50 shadow-sm" 
-        : "bg-white border-b-transparent"
-    )}>
+    <div className="bg-white border-b shadow-sm sticky top-0 z-50">
       <div className="container flex items-center justify-between py-4">
-        <Link to="/" onClick={handleLogoClick} className="flex items-center gap-3 font-bold text-2xl text-swap-blue hover:text-swap-darkBlue transition-colors duration-200">
+        <Link to="/" onClick={handleLogoClick} className="flex items-center gap-2 font-bold text-2xl text-swap-blue">
           <div className="relative">
             <ArrowRightLeft 
-              className="h-7 w-7 text-swap-blue hover:text-swap-darkBlue transition-all duration-300 hover:scale-110" 
+              className="h-8 w-8 text-swap-blue animate-pulse hover:animate-spin transition-all duration-300" 
             />
           </div>
           SwapSpot
@@ -113,30 +97,30 @@ const Navbar = () => {
                 <Menu className="h-5 w-5" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-[180px] border-border/50 bg-white/95 backdrop-blur-md">
+            <DropdownMenuContent align="end" className="w-[180px]">
               <DropdownMenuItem asChild>
-                <Link to="/" className="flex items-center gap-2 text-foreground/80 hover:text-foreground">Home</Link>
+                <Link to="/">Home</Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link to="/community" className="flex items-center gap-2 text-foreground/80 hover:text-foreground">Community</Link>
+                <Link to="/community">Community</Link>
               </DropdownMenuItem>
               {user ? (
                 <>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
-                    <Link to="/profile" className="flex items-center gap-2 text-foreground/80 hover:text-foreground">My Profile</Link>
+                    <Link to="/profile">My Profile</Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={handleLogout} className="text-foreground/80 hover:text-foreground">
+                  <DropdownMenuItem onClick={handleLogout}>
                     Logout
                   </DropdownMenuItem>
                 </>
               ) : (
                 <>
                   <DropdownMenuItem asChild>
-                    <Link to="#" onClick={handleLoginClick} className="text-foreground/80 hover:text-foreground">Login</Link>
+                    <Link to="#" onClick={handleLoginClick}>Login</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link to="#" onClick={handleSignupClick} className="text-foreground/80 hover:text-foreground">Sign Up</Link>
+                    <Link to="#" onClick={handleSignupClick}>Sign Up</Link>
                   </DropdownMenuItem>
                 </>
               )}
@@ -148,28 +132,28 @@ const Navbar = () => {
               <NavigationMenuList>
                 <NavigationMenuItem>
                   <NavigationMenuLink>
-                    <Link to="/how-it-works" className={cn(navigationMenuTriggerStyle(), "text-foreground/80 hover:text-foreground transition-colors")}>
+                    <Link to="/how-it-works" className={navigationMenuTriggerStyle()}>
                       How it Works
                     </Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <NavigationMenuLink>
-                    <Link to="/help-tips" className={cn(navigationMenuTriggerStyle(), "text-foreground/80 hover:text-foreground transition-colors")}>
+                    <Link to="/help-tips" className={navigationMenuTriggerStyle()}>
                       Help & Tips
                     </Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <NavigationMenuLink>
-                    <Link to="/community" className={cn(navigationMenuTriggerStyle(), "text-foreground/80 hover:text-foreground transition-colors")}>
+                    <Link to="/community" className={navigationMenuTriggerStyle()}>
                       Community
                     </Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <NavigationMenuLink>
-                    <Link to="/about" className={cn(navigationMenuTriggerStyle(), "text-foreground/80 hover:text-foreground transition-colors")}>
+                    <Link to="/about" className={navigationMenuTriggerStyle()}>
                       About
                     </Link>
                   </NavigationMenuLink>
@@ -181,12 +165,12 @@ const Navbar = () => {
               user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="flex items-center gap-2 text-foreground/80 hover:text-foreground hover:bg-muted/50 transition-all">
+                    <Button variant="ghost" size="sm" className="flex items-center gap-2">
                       <User className="h-4 w-4" />
                       {user.email?.split('@')[0] || 'Profile'}
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-[180px] border-border/50 bg-white/95 backdrop-blur-md">
+                  <DropdownMenuContent align="end" className="w-[180px]">
                     <DropdownMenuItem asChild>
                       <Link to="/profile" className="flex items-center gap-2">
                         <UserCircle className="h-4 w-4" />
@@ -204,12 +188,12 @@ const Navbar = () => {
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
-                <div className="flex items-center gap-3">
-                  <Button variant="ghost" asChild className="text-foreground/80 hover:text-foreground hover:bg-muted/50 transition-all">
+                <div className="flex items-center gap-2">
+                  <Button variant="outline" asChild>
                     <Link to="#" onClick={handleLoginClick}>Login</Link>
                   </Button>
-                  <Button asChild className="bg-swap-blue hover:bg-swap-darkBlue text-white shadow-md hover:shadow-lg transition-all">
-                    <Link to="#" onClick={handleSignupClick}>Get Started</Link>
+                  <Button asChild>
+                    <Link to="#" onClick={handleSignupClick}>Sign Up</Link>
                   </Button>
                 </div>
               )
