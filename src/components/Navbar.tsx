@@ -139,15 +139,15 @@ const Navbar = () => {
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <NavigationMenuLink>
-                    <Link to="/help-tips" className={navigationMenuTriggerStyle()}>
-                      Help & Tips
+                    <Link to="/community" className={navigationMenuTriggerStyle()}>
+                      Community
                     </Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <NavigationMenuLink>
-                    <Link to="/community" className={navigationMenuTriggerStyle()}>
-                      Community
+                    <Link to="/help-tips" className={navigationMenuTriggerStyle()}>
+                      Help & Tips
                     </Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>

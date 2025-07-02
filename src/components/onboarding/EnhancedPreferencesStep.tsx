@@ -121,7 +121,10 @@ const EnhancedPreferencesStep: React.FC<EnhancedPreferencesStepProps> = ({
                   <SelectItem value="700-900">€700 - €900</SelectItem>
                   <SelectItem value="900-1200">€900 - €1,200</SelectItem>
                   <SelectItem value="1200-1500">€1,200 - €1,500</SelectItem>
-                  <SelectItem value="1500+">€1,500+</SelectItem>
+                  <SelectItem value="1500-2000">€1,500 - €2,000</SelectItem>
+                  <SelectItem value="2000-2500">€2,000 - €2,500</SelectItem>
+                  <SelectItem value="2500-3000">€2,500 - €3,000</SelectItem>
+                  <SelectItem value="3000+">€3,000+</SelectItem>
                 </SelectContent>
               </Select>
             </div>

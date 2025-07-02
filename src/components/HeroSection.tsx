@@ -28,13 +28,8 @@ export default function HeroSection() {
 
   const handleStartHousingSwap = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (user) {
-      // If user is logged in, redirect to already registered page
-      navigate('/already-registered');
-    } else {
-      // If not logged in, go to onboarding
-      navigate('/onboarding');
-    }
+    // Always go to signup/onboarding
+    navigate('/onboarding');
   };
 
   return (

@@ -110,7 +110,7 @@ export default function CityChat({ room, onBack, currentUser }: CityChatProps) {
         .from('profiles')
         .select('user_id, full_name, current_location, exchange_university, university, program, nationality, languages_spoken, interests')
         .eq('user_id', userId)
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
       return data;
@@ -128,7 +128,7 @@ export default function CityChat({ room, onBack, currentUser }: CityChatProps) {
       setSelectedUserProfile(profile);
       setShowProfilePopup(true);
     } else {
-      toast.error("Could not load user profile");
+      toast.error("Could not load user information");
     }
   };
 

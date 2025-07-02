@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRightLeft } from "lucide-react";
 import UniversityStep from "./UniversityStep";
-import DatesStep from "./DatesStep";
+import ImprovedDatesStep from "./ImprovedDatesStep";
 import EnhancedPreferencesStep from "./EnhancedPreferencesStep";
 import ProofOfEnrollmentStep from "./ProofOfEnrollmentStep";
 import AccountCreationStep from "./AccountCreationStep";
@@ -162,7 +162,7 @@ const OnboardingFlow = () => {
         );
       case 1:
         return (
-          <DatesStep
+          <ImprovedDatesStep
             data={data}
             onUpdate={handleStepUpdate}
             onNext={handleNext}
