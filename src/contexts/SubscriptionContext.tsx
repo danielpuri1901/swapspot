@@ -47,17 +47,25 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
       setUser(session.user);
 
-      const { data, error } = await supabase.functions.invoke('check-subscription', {
-        headers: {
-          Authorization: `Bearer ${session.access_token}`,
-        },
-      });
+      // Try to call the check-subscription function, but handle errors gracefully
+      try {
+        const { data, error } = await supabase.functions.invoke('check-subscription', {
+          headers: {
+            Authorization: `Bearer ${session.access_token}`,
+          },
+        });
 
-      if (error) {
-        console.error("Error checking subscription:", error);
+        if (error) {
+          console.error("Error checking subscription:", error);
+          // Default to free tier if subscription check fails
+          setSubscriptionData({ subscribed: false, subscription_tier: 'free' });
+        } else {
+          setSubscriptionData(data);
+        }
+      } catch (functionError) {
+        console.error("Subscription function error:", functionError);
+        // Default to free tier if function call fails
         setSubscriptionData({ subscribed: false, subscription_tier: 'free' });
-      } else {
-        setSubscriptionData(data);
       }
     } catch (error) {
       console.error("Error refreshing subscription:", error);
