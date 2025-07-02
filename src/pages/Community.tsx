@@ -21,7 +21,9 @@ import {
   MapPin,
   Calendar,
   Mail,
-  Info
+  Info,
+  MessageCircle,
+  Library
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -176,9 +178,21 @@ const Community = () => {
         <section className="py-8 bg-gray-50">
           <div className="container mx-auto px-4 max-w-6xl">
             <Tabs defaultValue="connect" className="space-y-6">
-              <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-2 h-14 bg-white shadow-md">
-                <TabsTrigger value="connect" className="text-lg font-semibold py-4">Connect & Chat</TabsTrigger>
-                <TabsTrigger value="wiki" className="text-lg font-semibold py-4">Resources</TabsTrigger>
+              <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-2 h-16 bg-white shadow-lg rounded-xl border border-gray-200">
+                <TabsTrigger 
+                  value="connect" 
+                  className="flex items-center gap-3 text-base font-semibold py-4 px-6 rounded-lg data-[state=active]:bg-swap-blue data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-300 hover:bg-gray-50"
+                >
+                  <MessageCircle className="h-5 w-5" />
+                  <span>Connect & Chat</span>
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="wiki" 
+                  className="flex items-center gap-3 text-base font-semibold py-4 px-6 rounded-lg data-[state=active]:bg-swap-blue data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-300 hover:bg-gray-50"
+                >
+                  <Library className="h-5 w-5" />
+                  <span>Resources</span>
+                </TabsTrigger>
               </TabsList>
 
               {/* Connect & Chat Tab */}
