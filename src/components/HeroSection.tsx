@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, Users, MapPin, Shield } from "lucide-react";
@@ -41,12 +40,12 @@ export default function HeroSection() {
     <section 
       className="relative min-h-screen bg-gradient-to-br from-swap-lightBlue to-white py-20 md:py-32 bg-cover bg-center flex items-center"
       style={{
-        backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.6)), url(${heroImage})`,
+        backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.3)), url(${heroImage})`,
       }}
     >
       <div className="max-w-7xl mx-auto px-4 md:px-8 w-full">
         <div className="text-center mb-16">
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 md:p-12 shadow-xl border border-white/20 max-w-4xl mx-auto">
+          <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-8 md:p-12 shadow-xl border border-white/20 max-w-4xl mx-auto">
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
               Find Your Perfect
               <span className="text-swap-blue block">Student Housing Swap</span>
@@ -69,7 +68,7 @@ export default function HeroSection() {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
-          <div className="text-center p-6 bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-white/20">
+          <div className="text-center p-6 bg-white/60 backdrop-blur-sm rounded-xl shadow-lg border border-white/20">
             <div className="bg-swap-lightBlue p-3 rounded-full w-fit mx-auto mb-4">
               <Users className="h-8 w-8 text-swap-blue" />
             </div>
@@ -77,7 +76,7 @@ export default function HeroSection() {
             <p className="text-gray-700">Verified university students from across Europe ready to swap accommodations</p>
           </div>
           
-          <div className="text-center p-6 bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-white/20">
+          <div className="text-center p-6 bg-white/60 backdrop-blur-sm rounded-xl shadow-lg border border-white/20">
             <div className="bg-swap-lightBlue p-3 rounded-full w-fit mx-auto mb-4">
               <MapPin className="h-8 w-8 text-swap-blue" />
             </div>
@@ -85,7 +84,7 @@ export default function HeroSection() {
             <p className="text-gray-700">Major university cities and study abroad destinations throughout Europe</p>
           </div>
           
-          <div className="text-center p-6 bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-white/20">
+          <div className="text-center p-6 bg-white/60 backdrop-blur-sm rounded-xl shadow-lg border border-white/20">
             <div className="bg-swap-lightBlue p-3 rounded-full w-fit mx-auto mb-4">
               <Shield className="h-8 w-8 text-swap-blue" />
             </div>
