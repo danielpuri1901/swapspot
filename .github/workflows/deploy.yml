@@ -39,10 +39,14 @@ jobs:
         uses: actions/configure-pages@v4
 
       - name: Create CNAME file
-        run: echo "www.swapspot.it.com" > dist/CNAME
+        run: echo "swapspot.it.com" > dist/CNAME
 
       - name: Copy index.html to 404.html for SPA routing
         run: cp dist/index.html dist/404.html
+
+      - name: Add cache-busting headers
+        run: |
+          find dist -name "*.html" -exec sed -i 's/<head>/<head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0">/g' {} \;
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
