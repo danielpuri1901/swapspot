@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { User, Mail, LogOut, Plus, Settings, Crown, Shield, AlertTriangle } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabase";
 import { toast } from "@/components/ui/sonner";
 import PremiumFeatures from "@/components/PremiumFeatures";
 import { useSubscription } from "@/contexts/SubscriptionContext";

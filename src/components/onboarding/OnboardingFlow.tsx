@@ -2,13 +2,13 @@ import React, { useState, useCallback, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRightLeft } from "lucide-react";
 import UniversityStep from "./UniversityStep";
-import ImprovedDatesStep from "./ImprovedDatesStep";
+import DatesStep from "./DatesStep";
 import EnhancedPreferencesStep from "./EnhancedPreferencesStep";
 import ProofOfEnrollmentStep from "./ProofOfEnrollmentStep";
 import AccountCreationStep from "./AccountCreationStep";
 import CompletionStep from "./CompletionStep";
 import { loadUserProfile } from "@/services/emailService";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabase";
 
 export interface OnboardingData {
   fullName?: string;
@@ -87,7 +87,7 @@ const OnboardingFlow = () => {
               budget: profile.budget || '',
               preferredDestinations: profile.preferred_destinations || [],
               apartmentDescription: profile.apartment_description || '',
-              verificationMethod: (profile.verification_method as 'email' | 'id') || 'email',
+              verificationMethod: profile.verification_method || 'email',
               universityEmail: profile.university_email || '',
               additionalInfo: profile.additional_info || '',
               hasUploadedProof: profile.has_uploaded_proof || false,
@@ -162,7 +162,7 @@ const OnboardingFlow = () => {
         );
       case 1:
         return (
-          <ImprovedDatesStep
+          <DatesStep
             data={data}
             onUpdate={handleStepUpdate}
             onNext={handleNext}

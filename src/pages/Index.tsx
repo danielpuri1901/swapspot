@@ -7,7 +7,7 @@ import Testimonials from "@/components/Testimonials";
 import CtaSection from "@/components/CtaSection";
 import Footer from "@/components/Footer";
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabase";
 import { User } from "@supabase/supabase-js";
 
 const Index = () => {
@@ -16,7 +16,7 @@ const Index = () => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    console.log("Index page loaded - version:", new Date().toISOString());
+    console.log("Index page loaded");
     
     const checkUser = async () => {
       try {
@@ -24,16 +24,14 @@ const Index = () => {
         
         if (error) {
           console.error("Supabase connection error:", error);
-          // Don't set error state for auth issues, just log and continue
-          console.log("Continuing without authentication");
+          setError("Failed to connect to Supabase. Check the console for details.");
         } else {
           console.log("Supabase connection successful:", data.session ? "User is logged in" : "No active session");
           setUser(data.session?.user || null);
         }
       } catch (err) {
         console.error("Error checking user session:", err);
-        // Don't block the app for auth errors
-        console.log("Continuing without authentication");
+        setError("An unexpected error occurred while connecting to Supabase.");
       } finally {
         setLoading(false);
       }
@@ -42,7 +40,6 @@ const Index = () => {
     checkUser();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log("Auth state changed:", event, session?.user?.id || "no user");
       setUser(session?.user || null);
     });
 
@@ -54,9 +51,22 @@ const Index = () => {
       <div className="min-h-screen flex flex-col bg-gray-50">
         <Navbar />
         <div className="flex-grow flex items-center justify-center">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-swap-blue mx-auto mb-4"></div>
-            <p className="text-lg text-gray-700">Loading SwapSpot...</p>
+          <p className="text-lg text-gray-700">Loading...</p>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex flex-col bg-gray-50">
+        <Navbar />
+        <div className="flex-grow flex items-center justify-center p-4">
+          <div className="bg-red-50 border border-red-200 p-6 rounded-lg max-w-md shadow-sm">
+            <h2 className="text-lg font-semibold text-red-800 mb-2">Error</h2>
+            <p className="text-red-700">{error}</p>
+            <p className="mt-2 text-sm text-gray-600">Please check the browser console for more details.</p>
           </div>
         </div>
         <Footer />

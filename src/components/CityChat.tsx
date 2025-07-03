@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Send, ArrowLeft, MapPin, Globe, GraduationCap, X, MessageCircle } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
 
@@ -110,7 +110,7 @@ export default function CityChat({ room, onBack, currentUser }: CityChatProps) {
         .from('profiles')
         .select('user_id, full_name, current_location, exchange_university, university, program, nationality, languages_spoken, interests')
         .eq('user_id', userId)
-        .maybeSingle();
+        .single();
 
       if (error) throw error;
       return data;
@@ -128,7 +128,7 @@ export default function CityChat({ room, onBack, currentUser }: CityChatProps) {
       setSelectedUserProfile(profile);
       setShowProfilePopup(true);
     } else {
-      toast.error("Could not load user information");
+      toast.error("Could not load user profile");
     }
   };
 

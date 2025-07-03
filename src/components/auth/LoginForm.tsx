@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Eye, EyeOff, Mail, Lock, ArrowLeft } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabase";
 import { toast } from "@/components/ui/sonner";
 import { useNavigate, Link } from "react-router-dom";
 
@@ -35,11 +35,7 @@ const LoginForm = ({ onBack }: LoginFormProps) => {
           email,
           password,
           options: {
-            emailRedirectTo: redirectUrl,
-            data: {
-              app_name: "SwapSpot",
-              signup_timestamp: new Date().toISOString(),
-            }
+            emailRedirectTo: redirectUrl
           }
         });
 

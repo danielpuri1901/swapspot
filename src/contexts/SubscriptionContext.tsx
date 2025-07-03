@@ -1,6 +1,6 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabase";
 import { User } from "@supabase/supabase-js";
 
 interface SubscriptionData {
@@ -47,25 +47,17 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
       setUser(session.user);
 
-      // Try to call the check-subscription function, but handle errors gracefully
-      try {
-        const { data, error } = await supabase.functions.invoke('check-subscription', {
-          headers: {
-            Authorization: `Bearer ${session.access_token}`,
-          },
-        });
+      const { data, error } = await supabase.functions.invoke('check-subscription', {
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
 
-        if (error) {
-          console.error("Error checking subscription:", error);
-          // Default to free tier if subscription check fails
-          setSubscriptionData({ subscribed: false, subscription_tier: 'free' });
-        } else {
-          setSubscriptionData(data);
-        }
-      } catch (functionError) {
-        console.error("Subscription function error:", functionError);
-        // Default to free tier if function call fails
+      if (error) {
+        console.error("Error checking subscription:", error);
         setSubscriptionData({ subscribed: false, subscription_tier: 'free' });
+      } else {
+        setSubscriptionData(data);
       }
     } catch (error) {
       console.error("Error refreshing subscription:", error);

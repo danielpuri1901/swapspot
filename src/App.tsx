@@ -19,16 +19,8 @@ import HowItWorksPage from "./pages/HowItWorks";
 import HelpTips from "./pages/HelpTips";
 import About from "./pages/About";
 import AlreadyRegistered from "./pages/AlreadyRegistered";
-import NotFound from "./pages/NotFound";
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 1000 * 60 * 5, // 5 minutes
-      retry: 1,
-    },
-  },
-});
+const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -40,7 +32,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/account" element={<Profile />} />
+            <Route path="/account" element={<Account />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/onboarding" element={<Onboarding />} />
             <Route path="/community" element={<Community />} />
@@ -52,7 +44,6 @@ const App = () => (
             <Route path="/help-tips" element={<HelpTips />} />
             <Route path="/about" element={<About />} />
             <Route path="/already-registered" element={<AlreadyRegistered />} />
-            <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>

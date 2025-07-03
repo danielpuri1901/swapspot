@@ -21,7 +21,7 @@ import {
 import { Menu, ArrowRightLeft, User, LogOut, UserCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/lib/supabase';
 import { toast } from '@/components/ui/sonner';
 
 const Navbar = () => {
@@ -139,15 +139,15 @@ const Navbar = () => {
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <NavigationMenuLink>
-                    <Link to="/community" className={navigationMenuTriggerStyle()}>
-                      Community
+                    <Link to="/help-tips" className={navigationMenuTriggerStyle()}>
+                      Help & Tips
                     </Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <NavigationMenuLink>
-                    <Link to="/help-tips" className={navigationMenuTriggerStyle()}>
-                      Help & Tips
+                    <Link to="/community" className={navigationMenuTriggerStyle()}>
+                      Community
                     </Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>

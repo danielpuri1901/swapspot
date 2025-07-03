@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, Users, MapPin, Shield } from "lucide-react";
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabase";
 import { User } from "@supabase/supabase-js";
 import heroImage from "@/assets/hero-students.jpg";
 
@@ -28,8 +28,13 @@ export default function HeroSection() {
 
   const handleStartHousingSwap = (e: React.MouseEvent) => {
     e.preventDefault();
-    // Always go to signup/onboarding
-    navigate('/onboarding');
+    if (user) {
+      // If user is logged in, redirect to already registered page
+      navigate('/already-registered');
+    } else {
+      // If not logged in, go to onboarding
+      navigate('/onboarding');
+    }
   };
 
   return (

@@ -10,12 +10,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { User, GraduationCap, MapPin, Euro, Calendar, Home, Edit, Save, X } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabase";
 import { toast } from "@/components/ui/sonner";
 import { addUserToGoogleSheet, formatUserDataForSheet } from "@/services/googleSheetsService";
-import NationalitySelect from "@/components/profile/NationalitySelect";
-import InterestsSelect from "@/components/profile/InterestsSelect";
-import LanguagesSelect from "@/components/profile/LanguagesSelect";
 
 interface ProfileData {
   full_name?: string;
@@ -84,36 +81,10 @@ const Profile = () => {
         setProfile(profileData);
         // Set edit data to be read-only initially - fields are auto-filled from onboarding
         setEditData(profileData);
-        
-        // Check if profile is incomplete and suggest onboarding
-        if (!profileData.university || !profileData.program) {
-          toast.info("Complete your profile setup", {
-            description: "Finish the onboarding process to add more details to your profile."
-          });
-        }
       } else {
-        // Create minimal profile for new users
-        const minimalProfile = {
-          full_name: session.user.user_metadata?.full_name || '',
-          email: session.user.email || '',
-          university: null,
-          exchange_university: null,
-          program: null,
-          current_location: null,
-          current_address: null,
-          start_date: null,
-          end_date: null,
-          budget: null,
-          apartment_description: null,
-          nationality: null,
-          languages_spoken: null,
-          interests: null
-        };
-        setProfile(minimalProfile);
-        setEditData(minimalProfile);
-        toast.info("Welcome! Complete your profile", {
-          description: "Add more details to your profile or complete the full onboarding process."
-        });
+        console.log('No profile found, user may need to complete onboarding');
+        toast.error('Please complete the onboarding process first.');
+        navigate('/onboarding');
       }
     } catch (error) {
       console.error('Auth error:', error);
@@ -195,27 +166,17 @@ const Profile = () => {
         <Navbar />
         <main className="flex-grow flex items-center justify-center">
           <div className="text-center max-w-md">
-            <Alert className="border-blue-200 bg-blue-50">
-              <AlertDescription className="text-blue-800">
-                <strong>Welcome to SwapSpot!</strong><br />
-                Complete your profile setup to get started with housing exchanges.
+            <Alert>
+              <AlertDescription>
+                No profile data found. Please complete the onboarding process first.
               </AlertDescription>
             </Alert>
-            <div className="mt-6 space-y-3">
-              <Button 
-                onClick={() => navigate('/onboarding')} 
-                className="w-full bg-swap-blue hover:bg-swap-darkBlue"
-              >
-                Complete Full Onboarding
-              </Button>
-              <Button 
-                variant="outline"
-                onClick={() => window.location.reload()} 
-                className="w-full"
-              >
-                Refresh Page
-              </Button>
-            </div>
+            <Button 
+              onClick={() => navigate('/onboarding')} 
+              className="mt-4"
+            >
+              Complete Onboarding
+            </Button>
           </div>
         </main>
         <Footer />
@@ -229,14 +190,7 @@ const Profile = () => {
       <main className="flex-grow py-8">
         <div className="max-w-4xl mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
-              {(!profile.university || !profile.program) && (
-                <p className="text-sm text-blue-600 mt-1">
-                  💡 Complete onboarding to auto-fill your profile details
-                </p>
-              )}
-            </div>
+            <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
             {!isEditing ? (
               <Button 
                 onClick={() => setIsEditing(true)}
@@ -267,26 +221,6 @@ const Profile = () => {
               </div>
             )}
           </div>
-
-          {/* Onboarding CTA */}
-          {(!profile.university || !profile.program) && (
-            <div className="mb-6">
-              <Alert className="border-blue-200 bg-blue-50">
-                <AlertDescription className="flex items-center justify-between text-blue-800">
-                  <span>
-                    <strong>Complete your setup:</strong> Go through onboarding to auto-fill university, program, dates, and preferences
-                  </span>
-                  <Button 
-                    size="sm" 
-                    onClick={() => navigate('/onboarding')}
-                    className="ml-4 bg-blue-600 hover:bg-blue-700"
-                  >
-                    Complete Onboarding
-                  </Button>
-                </AlertDescription>
-              </Alert>
-            </div>
-          )}
 
           <div className="grid md:grid-cols-2 gap-6">
             {/* Personal Information */}
@@ -479,7 +413,7 @@ const Profile = () => {
               </CardContent>
             </Card>
 
-            {/* About You Section - Updated */}
+            {/* About You Section */}
             <Card className="md:col-span-2">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -490,48 +424,39 @@ const Profile = () => {
               <CardContent className="space-y-4">
                 <div className="grid md:grid-cols-3 gap-4">
                   <div className="space-y-2">
+                    <Label>Nationality</Label>
                     {isEditing ? (
-                      <NationalitySelect
+                      <Input
                         value={editData.nationality || ''}
-                        onChange={(value) => handleInputChange('nationality', value)}
-                        label="Nationality"
-                        placeholder="Select nationality"
+                        onChange={(e) => handleInputChange('nationality', e.target.value)}
+                        placeholder="e.g. Dutch, German, Spanish"
                       />
                     ) : (
-                      <>
-                        <Label>Nationality</Label>
-                        <p className="text-gray-700">{profile.nationality || 'Not provided'}</p>
-                      </>
+                      <p className="text-gray-700">{profile.nationality || 'Not provided'}</p>
                     )}
                   </div>
                   <div className="space-y-2">
+                    <Label>Languages Spoken</Label>
                     {isEditing ? (
-                      <LanguagesSelect
-                        value={editData.languages_spoken || []}
-                        onChange={(value) => handleInputChange('languages_spoken', value)}
-                        label="Languages Spoken"
-                        placeholder="Select languages"
+                      <Input
+                        value={editData.languages_spoken?.join(', ') || ''}
+                        onChange={(e) => handleInputChange('languages_spoken', e.target.value.split(', ').filter(lang => lang.trim()))}
+                        placeholder="e.g. English, Dutch, German"
                       />
                     ) : (
-                      <>
-                        <Label>Languages Spoken</Label>
-                        <p className="text-gray-700">{profile.languages_spoken?.join(', ') || 'Not provided'}</p>
-                      </>
+                      <p className="text-gray-700">{profile.languages_spoken?.join(', ') || 'Not provided'}</p>
                     )}
                   </div>
                   <div className="space-y-2">
+                    <Label>Interests</Label>
                     {isEditing ? (
-                      <InterestsSelect
-                        value={editData.interests ? editData.interests.split(', ').filter(i => i.trim()) : []}
-                        onChange={(value) => handleInputChange('interests', value.join(', '))}
-                        label="Interests"
-                        placeholder="Select interests"
+                      <Input
+                        value={editData.interests || ''}
+                        onChange={(e) => handleInputChange('interests', e.target.value)}
+                        placeholder="e.g. Travel, Photography, Sports"
                       />
                     ) : (
-                      <>
-                        <Label>Interests</Label>
-                        <p className="text-gray-700">{profile.interests || 'Not provided'}</p>
-                      </>
+                      <p className="text-gray-700">{profile.interests || 'Not provided'}</p>
                     )}
                   </div>
                 </div>

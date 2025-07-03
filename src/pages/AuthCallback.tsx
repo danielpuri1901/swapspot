@@ -4,7 +4,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Loader2, CheckCircle, XCircle } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabase";
 import { toast } from "@/components/ui/sonner";
 
 const AuthCallback = () => {
@@ -60,12 +60,12 @@ const AuthCallback = () => {
           setStatus("success");
           
           toast.success("Email verified successfully!", {
-            description: "Welcome to SwapSpot! Redirecting to your profile..."
+            description: "Welcome to SwapSpot! Redirecting to community..."
           });
           
           // Give user a moment to see the success message before redirecting
           setTimeout(() => {
-            navigate("/profile", { replace: true });
+            navigate("/community", { replace: true });
           }, 2000);
         } else {
           console.error("No session or user data received");

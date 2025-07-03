@@ -1,6 +1,6 @@
 
 import { toast } from "@/components/ui/sonner";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabase";
 
 /**
  * Send a verification email to the user's email address
@@ -13,8 +13,8 @@ export const sendVerificationEmail = async (email: string): Promise<boolean> => 
     // Use the current window location for redirection
     const currentOrigin = window.location.origin;
     
-    // Redirect to the auth callback page for automatic login
-    const redirectTo = `${currentOrigin}/auth/callback`;
+    // Redirect to the verify page in our app
+    const redirectTo = `${currentOrigin}/verify`;
     console.log("Setting redirect URL to:", redirectTo);
     
     // Send the OTP via email
