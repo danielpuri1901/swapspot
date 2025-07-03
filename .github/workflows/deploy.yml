@@ -41,10 +41,20 @@ jobs:
         uses: actions/configure-pages@v4
 
       - name: Create CNAME file
-        run: echo "swapspot.it.com" > dist/CNAME
+        run: |
+          echo "swapspot.it.com" > dist/CNAME
+          ls -la dist/
+          cat dist/CNAME
 
       - name: Copy index.html to 404.html for SPA routing
         run: cp dist/index.html dist/404.html
+
+      - name: Verify build output
+        run: |
+          echo "Build directory contents:"
+          ls -la dist/
+          echo "CNAME file contents:"
+          cat dist/CNAME
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -54,3 +64,11 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        
+      - name: Wait for deployment
+        run: sleep 30
+        
+      - name: Verify deployment
+        run: |
+          echo "Deployment completed to: ${{ steps.deployment.outputs.page_url }}"
+          echo "Custom domain should be available at: https://swapspot.it.com"
