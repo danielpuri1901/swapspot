@@ -19,6 +19,7 @@ import HowItWorksPage from "./pages/HowItWorks";
 import HelpTips from "./pages/HelpTips";
 import About from "./pages/About";
 import AlreadyRegistered from "./pages/AlreadyRegistered";
+import FAQ from "./pages/FAQ";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +45,7 @@ const App = () => (
             <Route path="/help-tips" element={<HelpTips />} />
             <Route path="/about" element={<About />} />
             <Route path="/already-registered" element={<AlreadyRegistered />} />
+            <Route path="/faq" element={<FAQ />} />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
