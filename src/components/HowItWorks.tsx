@@ -30,14 +30,14 @@ export default function HowItWorks() {
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="bg-gradient-to-r from-swap-blue to-purple-600 p-2 rounded-full">
+            <div className="bg-swap-blue p-2 rounded-full">
               <Sparkles className="h-6 w-6 text-white" />
             </div>
             <span className="text-swap-blue font-bold text-lg">AI-Powered Matching</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 leading-tight">
             We Do Everything
-            <span className="bg-gradient-to-r from-swap-blue to-purple-600 bg-clip-text text-transparent block">
+            <span className="bg-gradient-to-r from-swap-blue to-swap-darkBlue bg-clip-text text-transparent block">
               So You Don't Have To
             </span>
           </h2>
@@ -50,12 +50,7 @@ export default function HowItWorks() {
           {steps.map((step, index) => (
             <div key={index} className="relative group">
               <div className="bg-white p-6 rounded-2xl border-2 border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 text-center h-full">
-                <div className={`bg-gradient-to-br ${
-                  index === 0 ? 'from-blue-500 to-cyan-500' :
-                  index === 1 ? 'from-purple-500 to-pink-500' :
-                  index === 2 ? 'from-green-500 to-emerald-500' :
-                  'from-orange-500 to-red-500'
-                } p-3 rounded-2xl w-fit mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                <div className="bg-swap-blue p-3 rounded-2xl w-fit mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                   {step.icon}
                 </div>
                 <div className="bg-gray-900 text-white rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-3 text-sm font-bold shadow-lg">

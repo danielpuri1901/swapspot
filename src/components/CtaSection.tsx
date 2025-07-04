@@ -1,16 +1,19 @@
 
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { ArrowRight, Sparkles, Zap } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 
 export default function CtaSection() {
   return (
-    <section className="py-16 bg-gradient-to-br from-swap-blue via-purple-600 to-swap-darkBlue relative overflow-hidden">
+    <section className="py-16 bg-gradient-to-br from-swap-blue via-swap-darkBlue to-purple-600 relative overflow-hidden">
       {/* Dynamic background pattern */}
       <div className="absolute inset-0 opacity-10">
-        <div className="w-full h-full" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-        }}></div>
+        <div 
+          className="w-full h-full" 
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+          }}
+        />
       </div>
 
       {/* Floating elements */}
@@ -22,9 +25,6 @@ export default function CtaSection() {
           <div className="flex items-center justify-center gap-2 mb-6">
             <div className="bg-gradient-to-r from-yellow-400 to-orange-500 p-3 rounded-full animate-pulse">
               <Sparkles className="h-8 w-8 text-white" />
-            </div>
-            <div className="bg-gradient-to-r from-purple-400 to-pink-500 p-3 rounded-full animate-pulse delay-500">
-              <Zap className="h-8 w-8 text-white" />
             </div>
           </div>
           

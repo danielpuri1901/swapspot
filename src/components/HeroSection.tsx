@@ -38,12 +38,21 @@ export default function HeroSection() {
   return (
     <section 
       className="relative min-h-screen bg-gradient-to-br from-swap-blue via-swap-darkBlue to-purple-700 py-20 md:py-32 flex items-center overflow-hidden"
+      style={{
+        backgroundImage: `linear-gradient(rgba(59, 130, 246, 0.8), rgba(37, 99, 235, 0.9)), url(${heroImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
     >
       {/* Dynamic Background Pattern */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="w-full h-full" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-        }}></div>
+      <div className="absolute inset-0 opacity-10">
+        <div 
+          className="w-full h-full" 
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+          }}
+        />
       </div>
 
       {/* Floating decorative elements */}
@@ -96,15 +105,15 @@ export default function HeroSection() {
         {/* Compressed stats section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="text-center p-6 bg-white/10 backdrop-blur-md rounded-2xl shadow-xl border border-white/30 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group">
-            <div className="bg-gradient-to-br from-yellow-400 to-orange-500 p-3 rounded-2xl w-fit mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
-              <Users className="h-8 w-8 text-gray-900" />
+            <div className="bg-swap-blue p-3 rounded-2xl w-fit mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
+              <Users className="h-8 w-8 text-white" />
             </div>
             <h3 className="text-xl font-bold mb-2 text-white">10,000+ Students</h3>
             <p className="text-white/80 text-sm">Verified across Europe</p>
           </div>
           
           <div className="text-center p-6 bg-white/10 backdrop-blur-md rounded-2xl shadow-xl border border-white/30 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group">
-            <div className="bg-gradient-to-br from-purple-400 to-pink-500 p-3 rounded-2xl w-fit mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
+            <div className="bg-swap-blue p-3 rounded-2xl w-fit mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
               <MapPin className="h-8 w-8 text-white" />
             </div>
             <h3 className="text-xl font-bold mb-2 text-white">50+ Cities</h3>
@@ -112,7 +121,7 @@ export default function HeroSection() {
           </div>
           
           <div className="text-center p-6 bg-white/10 backdrop-blur-md rounded-2xl shadow-xl border border-white/30 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group">
-            <div className="bg-gradient-to-br from-green-400 to-cyan-500 p-3 rounded-2xl w-fit mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
+            <div className="bg-swap-blue p-3 rounded-2xl w-fit mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
               <Shield className="h-8 w-8 text-white" />
             </div>
             <h3 className="text-xl font-bold mb-2 text-white">100% Verified</h3>

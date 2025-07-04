@@ -54,9 +54,12 @@ const HowItWorksPage = () => {
         <section className="relative overflow-hidden bg-gradient-to-br from-swap-blue via-swap-darkBlue to-purple-700 py-20 md:py-32">
           {/* Background Pattern */}
           <div className="absolute inset-0 opacity-20">
-            <div className="w-full h-full" style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-            }}></div>
+            <div 
+              className="w-full h-full" 
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+              }}
+            />
           </div>
           
           <div className="relative max-w-6xl mx-auto px-4 md:px-8 text-center">
@@ -118,12 +121,12 @@ const HowItWorksPage = () => {
                   {/* Visual Side */}
                   <div className="w-full lg:w-1/2 flex justify-center">
                     <div className="relative group">
-                      <div className="absolute -inset-4 bg-gradient-to-r from-swap-blue/20 to-purple-600/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
+                      <div className="absolute -inset-4 bg-swap-blue/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
                       <div className="relative bg-white rounded-3xl p-16 shadow-xl group-hover:shadow-2xl transition-all duration-300 border border-gray-100">
                         <div className="flex items-center justify-center mb-6">
                           {step.icon}
                         </div>
-                        <div className="bg-gradient-to-r from-swap-blue to-swap-darkBlue text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold shadow-lg mx-auto">
+                        <div className="bg-swap-blue text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold shadow-lg mx-auto">
                           {step.number}
                         </div>
                       </div>
@@ -149,7 +152,7 @@ const HowItWorksPage = () => {
         </section>
 
         {/* Bottom CTA */}
-        <section className="py-20 bg-gradient-to-r from-swap-blue to-swap-darkBlue">
+        <section className="py-20 bg-swap-blue">
           <div className="max-w-5xl mx-auto px-4 md:px-8 text-center">
             <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-12 md:p-16 border border-white/20">
               <Sparkles className="h-12 w-12 text-yellow-300 mx-auto mb-6" />
