@@ -5,7 +5,7 @@ import { ArrowRight, Sparkles } from "lucide-react";
 
 export default function CtaSection() {
   return (
-    <section className="py-16 bg-gradient-to-br from-swap-blue via-swap-darkBlue to-purple-600 relative overflow-hidden">
+    <section className="py-16 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 relative overflow-hidden">
       {/* Dynamic background pattern */}
       <div className="absolute inset-0 opacity-10">
         <div 
@@ -17,20 +17,20 @@ export default function CtaSection() {
       </div>
 
       {/* Floating elements */}
-      <div className="absolute top-10 left-10 w-16 h-16 bg-yellow-300/20 rounded-full animate-pulse"></div>
-      <div className="absolute bottom-10 right-10 w-12 h-12 bg-orange-300/30 rounded-full animate-pulse delay-1000"></div>
+      <div className="absolute top-10 left-10 w-16 h-16 bg-blue-300/20 rounded-full animate-pulse"></div>
+      <div className="absolute bottom-10 right-10 w-12 h-12 bg-blue-200/30 rounded-full animate-pulse delay-1000"></div>
       
       <div className="max-w-5xl mx-auto px-4 md:px-8 text-center relative z-10">
         <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 md:p-12 border border-white/20 shadow-2xl">
           <div className="flex items-center justify-center gap-2 mb-6">
-            <div className="bg-gradient-to-r from-yellow-400 to-orange-500 p-3 rounded-full animate-pulse">
+            <div className="bg-blue-500 p-3 rounded-full">
               <Sparkles className="h-8 w-8 text-white" />
             </div>
           </div>
           
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
             Ready to Find Your Perfect
-            <span className="bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent block">
+            <span className="text-blue-200 block">
               Exchange Match?
             </span>
           </h2>
@@ -40,7 +40,7 @@ export default function CtaSection() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild size="lg" className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-gray-900 font-bold text-lg px-10 py-6 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+            <Button asChild size="lg" className="bg-white text-blue-700 hover:bg-blue-50 font-bold text-lg px-10 py-6 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
               <Link to="/signup">
                 Start Matching Now
                 <ArrowRight className="h-5 w-5 ml-2" />

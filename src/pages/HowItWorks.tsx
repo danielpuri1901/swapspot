@@ -3,34 +3,34 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { ArrowRight, UserCheck, Zap, Users, CheckCircle, GraduationCap, Sparkles } from "lucide-react";
+import { ArrowRight, UserCheck, Zap, Users, CheckCircle, Sparkles } from "lucide-react";
 
 const HowItWorksPage = () => {
   const steps = [
     {
       number: "1",
-      icon: <UserCheck className="h-12 w-12 text-swap-blue" />,
+      icon: <UserCheck className="h-12 w-12 text-blue-600" />,
       title: "Tell us your exchange needs",
       description: "Share your university exchange program, study abroad dates, destination preferences, and housing requirements. That's it - we handle the rest.",
       highlight: "Just one simple form"
     },
     {
       number: "2", 
-      icon: <Zap className="h-12 w-12 text-swap-blue" />,
+      icon: <Zap className="h-12 w-12 text-blue-600" />,
       title: "We do the searching for exchange students",
       description: "Our intelligent system works 24/7, automatically scanning and analyzing thousands of verified university student profiles to find your perfect exchange matches.",
       highlight: "AI-powered matching"
     },
     {
       number: "3",
-      icon: <Users className="h-12 w-12 text-swap-blue" />,
+      icon: <Users className="h-12 w-12 text-blue-600" />,
       title: "We deliver your student matches", 
       description: "Receive curated exchange student match notifications with complete profiles and contact details - no searching, no browsing, just perfect study abroad matches.",
       highlight: "Curated matches delivered"
     },
     {
       number: "4",
-      icon: <CheckCircle className="h-12 w-12 text-swap-blue" />,
+      icon: <CheckCircle className="h-12 w-12 text-blue-600" />,
       title: "You connect and swap for your exchange",
       description: "Simply reach out to your pre-screened exchange student matches to finalize details. We've already done all the hard work of finding compatibility for your study abroad experience.",
       highlight: "Easy connection"
@@ -51,7 +51,7 @@ const HowItWorksPage = () => {
       <Navbar />
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-swap-blue via-swap-darkBlue to-purple-700 py-20 md:py-32">
+        <section className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 py-20 md:py-32">
           {/* Background Pattern */}
           <div className="absolute inset-0 opacity-20">
             <div 
@@ -64,13 +64,13 @@ const HowItWorksPage = () => {
           
           <div className="relative max-w-6xl mx-auto px-4 md:px-8 text-center">
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 mb-8 border border-white/20">
-              <Sparkles className="h-5 w-5 text-yellow-300" />
+              <Sparkles className="h-5 w-5 text-blue-200" />
               <span className="text-white font-semibold text-lg">Built Exclusively for Exchange Students</span>
             </div>
             
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-8 leading-tight">
               We Handle Everything<br />
-              <span className="bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">
+              <span className="text-blue-200">
                 So You Don't Have To
               </span>
             </h1>
@@ -80,7 +80,7 @@ const HowItWorksPage = () => {
             </p>
             
             <div className="flex flex-wrap justify-center gap-4 mb-16">
-              <Button asChild size="lg" className="bg-white text-swap-blue hover:bg-gray-100 text-lg px-8 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
+              <Button asChild size="lg" className="bg-white text-blue-700 hover:bg-blue-50 text-lg px-8 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
                 <Link to="/signup">
                   Start Your Journey
                   <ArrowRight className="h-5 w-5 ml-2" />
@@ -95,7 +95,7 @@ const HowItWorksPage = () => {
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
               {benefits.map((benefit, index) => (
                 <div key={index} className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
-                  <CheckCircle className="h-5 w-5 text-green-300 mb-2 mx-auto" />
+                  <CheckCircle className="h-5 w-5 text-blue-200 mb-2 mx-auto" />
                   <p className="text-white/90 text-sm font-medium">{benefit}</p>
                 </div>
               ))}
@@ -121,12 +121,12 @@ const HowItWorksPage = () => {
                   {/* Visual Side */}
                   <div className="w-full lg:w-1/2 flex justify-center">
                     <div className="relative group">
-                      <div className="absolute -inset-4 bg-swap-blue/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
+                      <div className="absolute -inset-4 bg-blue-600/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
                       <div className="relative bg-white rounded-3xl p-16 shadow-xl group-hover:shadow-2xl transition-all duration-300 border border-gray-100">
                         <div className="flex items-center justify-center mb-6">
                           {step.icon}
                         </div>
-                        <div className="bg-swap-blue text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold shadow-lg mx-auto">
+                        <div className="bg-blue-600 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold shadow-lg mx-auto">
                           {step.number}
                         </div>
                       </div>
@@ -135,7 +135,7 @@ const HowItWorksPage = () => {
                   
                   {/* Content Side */}
                   <div className="w-full lg:w-1/2 text-center lg:text-left">
-                    <div className="inline-block bg-swap-lightBlue text-swap-darkBlue px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                    <div className="inline-block bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
                       {step.highlight}
                     </div>
                     <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 leading-tight">
@@ -152,10 +152,10 @@ const HowItWorksPage = () => {
         </section>
 
         {/* Bottom CTA */}
-        <section className="py-20 bg-swap-blue">
+        <section className="py-20 bg-blue-600">
           <div className="max-w-5xl mx-auto px-4 md:px-8 text-center">
             <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-12 md:p-16 border border-white/20">
-              <Sparkles className="h-12 w-12 text-yellow-300 mx-auto mb-6" />
+              <Sparkles className="h-12 w-12 text-blue-200 mx-auto mb-6" />
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-8 leading-tight">
                 Zero Effort, Maximum Exchange Results
               </h3>
@@ -166,11 +166,11 @@ const HowItWorksPage = () => {
                 <p>
                   We analyze compatibility factors, verify student status, and deliver only the highest-quality exchange matches directly to you.
                 </p>
-                <p className="text-xl md:text-2xl font-bold text-yellow-300">
+                <p className="text-xl md:text-2xl font-bold text-blue-200">
                   You literally don't have to do anything except provide your exchange preferences once.
                 </p>
               </div>
-              <Button asChild size="lg" className="bg-white text-swap-blue hover:bg-gray-100 text-lg px-8 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
+              <Button asChild size="lg" className="bg-white text-blue-700 hover:bg-blue-50 text-lg px-8 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
                 <Link to="/signup">
                   Find My Exchange Housing Match
                   <ArrowRight className="h-5 w-5 ml-2" />
