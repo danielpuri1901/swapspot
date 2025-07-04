@@ -59,7 +59,7 @@ export const uploadVerificationDocument = async (
     const fileExtension = file.name.split('.').pop();
     const fileName = `${userId}/verification_${Date.now()}.${fileExtension}`;
     
-    console.log('Uploading verification document:', fileName);
+    console.log('Uploading verification document:', fileName, 'File size:', file.size);
     
     const { data, error } = await supabase.storage
       .from('verification-images')
@@ -72,6 +72,8 @@ export const uploadVerificationDocument = async (
       console.error('Verification upload error:', error);
       throw error;
     }
+
+    console.log('Verification document uploaded successfully:', data);
 
     // Get the public URL
     const { data: { publicUrl } } = supabase.storage

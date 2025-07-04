@@ -1,10 +1,11 @@
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Separator } from "@/components/ui/separator";
-import { UserPlus, User, Mail, Lock, CheckCircle } from "lucide-react";
+import { UserPlus, User, Mail, Lock, CheckCircle, Info } from "lucide-react";
 import { OnboardingData } from "./OnboardingFlow";
 import { supabase } from "@/lib/supabase";
 import { toast } from "@/components/ui/sonner";
@@ -38,6 +39,7 @@ const AccountCreationStep: React.FC<AccountCreationStepProps> = ({
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [showEmailForm, setShowEmailForm] = useState(false);
   const [error, setError] = useState("");
+  const [showEmailVerificationNotice, setShowEmailVerificationNotice] = useState(false);
 
   const uploadUserFiles = async (userId: string) => {
     const uploadPromises = [];
@@ -60,7 +62,7 @@ const AccountCreationStep: React.FC<AccountCreationStepProps> = ({
 
     // Upload verification document if it exists
     if (data.verificationFile) {
-      console.log('Uploading verification document...');
+      console.log('Uploading verification document...', data.verificationFile.name, data.verificationFile.size);
       uploadPromises.push(
         uploadVerificationDocument(data.verificationFile, userId)
           .then(result => {
@@ -143,7 +145,7 @@ const AccountCreationStep: React.FC<AccountCreationStepProps> = ({
     setIsLoading(true);
 
     try {
-      // Create account with Supabase Auth
+      // Create account with Supabase Auth - NO EMAIL CONFIRMATION REQUIRED
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
         password,
@@ -151,7 +153,7 @@ const AccountCreationStep: React.FC<AccountCreationStepProps> = ({
           data: {
             full_name: fullName,
           },
-          emailRedirectTo: `${window.location.origin}/auth/callback`
+          // Remove emailRedirectTo to disable email confirmation
         }
       });
 
@@ -234,10 +236,16 @@ const AccountCreationStep: React.FC<AccountCreationStepProps> = ({
         }
 
         toast.success("Account created successfully!", {
-          description: "You're now signed in and ready to use SwapSpot. Files are being uploaded to your profile."
+          description: "You're now signed in and ready to use SwapSpot."
         });
         
-        onAccountCreated();
+        // Show email verification notice
+        setShowEmailVerificationNotice(true);
+        
+        // Continue to completion after a brief delay
+        setTimeout(() => {
+          onAccountCreated();
+        }, 3000);
       }
     } catch (error) {
       console.error("Account creation error:", error);
@@ -360,6 +368,38 @@ const AccountCreationStep: React.FC<AccountCreationStepProps> = ({
     );
   }
 
+  // Show email verification notice after account creation
+  if (showEmailVerificationNotice) {
+    return (
+      <div className="space-y-8">
+        <div className="text-center mb-8">
+          <CheckCircle className="h-16 w-16 text-green-600 mx-auto mb-4" />
+          <h3 className="text-3xl font-bold text-gray-900 mb-2">
+            Account Created Successfully!
+          </h3>
+          <p className="text-gray-600 text-lg">
+            Welcome to SwapSpot! Your account is ready to use.
+          </p>
+        </div>
+
+        <Alert className="border-blue-200 bg-blue-50">
+          <Info className="h-4 w-4" />
+          <AlertDescription className="text-blue-800">
+            <strong>Optional:</strong> To access all community features like group chats, please verify your email address. 
+            You can do this later from your profile settings.
+          </AlertDescription>
+        </Alert>
+
+        <div className="bg-green-50 border border-green-200 rounded-lg p-6">
+          <h4 className="font-semibold text-green-800 mb-2">🎉 You're All Set!</h4>
+          <p className="text-sm text-green-700">
+            Your profile has been created and your files are being uploaded. You can start browsing and connecting with other students right away!
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
       <div className="text-center mb-8">
@@ -376,7 +416,7 @@ const AccountCreationStep: React.FC<AccountCreationStepProps> = ({
         <h4 className="font-semibold text-blue-800 mb-2">🎉 Almost Done!</h4>
         <p className="text-sm text-blue-700">
           Create your account to save all your preferences and start connecting with other students.
-          <span className="block mt-2 font-medium">Note: Email verification is only required if you want to join chat groups.</span>
+          <span className="block mt-2 font-medium">Note: Email verification is only needed for group chat access.</span>
         </p>
       </div>
 

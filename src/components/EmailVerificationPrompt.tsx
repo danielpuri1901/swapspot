@@ -22,7 +22,10 @@ const EmailVerificationPrompt: React.FC<EmailVerificationPromptProps> = ({
     try {
       const { error } = await supabase.auth.resend({
         type: 'signup',
-        email: userEmail || ''
+        email: userEmail || '',
+        options: {
+          emailRedirectTo: `${window.location.origin}/community`
+        }
       });
 
       if (error) {
