@@ -69,8 +69,8 @@ const OnboardingFlow = () => {
         try {
           const profile = await loadUserProfile();
           if (profile && profile.full_name && profile.university) {
-            // User has already completed onboarding, redirect to already registered page
-            navigate("/already-registered");
+            // User has already completed onboarding, redirect to community
+            navigate("/community");
             return;
           }
           if (profile) {
@@ -126,14 +126,14 @@ const OnboardingFlow = () => {
   }, []);
 
   const handleAccountCreated = () => {
-    // Move to completion step instead of redirecting
+    // Move to completion step and keep user signed in
     setCurrentStep(5);
   };
 
   const handleComplete = () => {
-    // Set completion status and redirect to profile page
+    // Set completion status and redirect to community (keep user signed in)
     localStorage.setItem('onboardingComplete', 'true');
-    navigate("/profile");
+    navigate("/community");
   };
 
   if (isLoading) {

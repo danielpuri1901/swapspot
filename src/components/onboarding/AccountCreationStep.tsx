@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -56,14 +55,15 @@ const AccountCreationStep: React.FC<AccountCreationStepProps> = ({
     setIsLoading(true);
 
     try {
-      // Create account with Supabase Auth
+      // Create account with Supabase Auth - no email confirmation required for immediate sign in
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
         password,
         options: {
           data: {
             full_name: fullName,
-          }
+          },
+          emailRedirectTo: `${window.location.origin}/auth/callback`
         }
       });
 
@@ -138,7 +138,7 @@ const AccountCreationStep: React.FC<AccountCreationStepProps> = ({
         }
 
         toast.success("Account created successfully!", {
-          description: "Your profile has been saved and you can now access all features."
+          description: "You're now signed in and ready to use SwapSpot. Email verification is only needed for chat groups."
         });
         
         onAccountCreated();
@@ -231,7 +231,7 @@ const AccountCreationStep: React.FC<AccountCreationStepProps> = ({
         <div className="bg-green-50 border border-green-200 rounded-lg p-6">
           <h4 className="font-semibold text-green-800 mb-2">✅ All Set!</h4>
           <p className="text-sm text-green-700">
-            You're already logged in. We'll update your profile with the information you've provided.
+            You're already signed in. We'll update your profile with the information you've provided.
           </p>
         </div>
 
@@ -245,7 +245,67 @@ const AccountCreationStep: React.FC<AccountCreationStepProps> = ({
             Previous
           </Button>
           <Button 
-            onClick={handleSaveProfile}
+            onClick={async () => {
+              setIsLoading(true);
+              try {
+                const { data: { user } } = await supabase.auth.getUser();
+                
+                if (!user) {
+                  toast.error("Authentication error - please log in again");
+                  return;
+                }
+
+                // Save to profiles table
+                const { error: profileError } = await supabase
+                  .from('profiles')
+                  .upsert({
+                    user_id: user.id,
+                    email: user.email || data.email,
+                    full_name: data.fullName,
+                    university: data.university,
+                    exchange_university: data.exchangeUniversity,
+                    program: data.program,
+                    start_date: data.startDate,
+                    end_date: data.endDate,
+                    current_location: data.currentLocation,
+                    current_address: data.currentAddress,
+                    budget: data.budget,
+                    preferred_destinations: data.preferredDestinations || [],
+                    apartment_description: data.apartmentDescription,
+                    verification_method: data.verificationMethod || 'email',
+                    university_email: data.universityEmail,
+                    additional_info: data.additionalInfo,
+                    has_uploaded_proof: data.hasUploadedProof || false,
+                    gdpr_consent: data.gdprConsent || false,
+                    updated_at: new Date().toISOString()
+                  }, {
+                    onConflict: 'user_id'
+                  });
+
+                if (profileError) {
+                  console.error("Error saving profile:", profileError);
+                  toast.error("Failed to save profile data");
+                  return;
+                }
+
+                // Send to Google Sheets
+                try {
+                  const completeData = { ...data, email: user.email || data.email };
+                  const formattedData = formatUserDataForSheet(completeData);
+                  await addUserToGoogleSheet(formattedData);
+                } catch (sheetsError) {
+                  console.error("Error sending to Google Sheets:", sheetsError);
+                }
+
+                toast.success("Profile updated successfully!");
+                onAccountCreated();
+              } catch (error) {
+                console.error("Error in saveProfile:", error);
+                toast.error("Failed to save profile data");
+              } finally {
+                setIsLoading(false);
+              }
+            }}
             disabled={isLoading}
             className="flex-1 h-12 bg-green-600 hover:bg-green-700 text-white font-medium"
           >
@@ -272,6 +332,7 @@ const AccountCreationStep: React.FC<AccountCreationStepProps> = ({
         <h4 className="font-semibold text-blue-800 mb-2">🎉 Almost Done!</h4>
         <p className="text-sm text-blue-700">
           Create your account to save all your preferences and start connecting with other students.
+          <span className="block mt-2 font-medium">Note: Email verification is only required if you want to join chat groups.</span>
         </p>
       </div>
 
@@ -361,7 +422,7 @@ const AccountCreationStep: React.FC<AccountCreationStepProps> = ({
           disabled={isLoading || !email || !password || !fullName || password !== confirmPassword}
           className="flex-1 h-12 bg-swap-blue hover:bg-swap-blue/90 text-white font-medium"
         >
-          {isLoading ? "Creating Account..." : "Create Account & Save"}
+          {isLoading ? "Creating Account..." : "Create Account & Continue"}
         </Button>
       </div>
     </div>
