@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,6 +9,7 @@ import { OnboardingData } from "./OnboardingFlow";
 import { supabase } from "@/lib/supabase";
 import { toast } from "@/components/ui/sonner";
 import { addUserToGoogleSheet, formatUserDataForSheet } from "@/services/googleSheetsService";
+import { uploadAccommodationPhotos, uploadVerificationDocument } from "@/services/storageService";
 
 interface AccountCreationStepProps {
   data: OnboardingData;
@@ -38,6 +38,57 @@ const AccountCreationStep: React.FC<AccountCreationStepProps> = ({
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [showEmailForm, setShowEmailForm] = useState(false);
   const [error, setError] = useState("");
+
+  const uploadUserFiles = async (userId: string) => {
+    const uploadPromises = [];
+    
+    // Upload accommodation photos if they exist
+    if (data.apartmentPhotos && data.apartmentPhotos.length > 0) {
+      console.log('Uploading accommodation photos...');
+      uploadPromises.push(
+        uploadAccommodationPhotos(data.apartmentPhotos, userId)
+          .then(results => {
+            console.log('Accommodation photos uploaded:', results);
+            return { type: 'accommodation', results };
+          })
+          .catch(error => {
+            console.error('Failed to upload accommodation photos:', error);
+            return { type: 'accommodation', error };
+          })
+      );
+    }
+
+    // Upload verification document if it exists
+    if (data.verificationFile) {
+      console.log('Uploading verification document...');
+      uploadPromises.push(
+        uploadVerificationDocument(data.verificationFile, userId)
+          .then(result => {
+            console.log('Verification document uploaded:', result);
+            return { type: 'verification', result };
+          })
+          .catch(error => {
+            console.error('Failed to upload verification document:', error);
+            return { type: 'verification', error };
+          })
+      );
+    }
+
+    // Wait for all uploads to complete
+    if (uploadPromises.length > 0) {
+      const uploadResults = await Promise.all(uploadPromises);
+      console.log('All file uploads completed:', uploadResults);
+      
+      // Check for any upload failures
+      const failures = uploadResults.filter(result => result.error);
+      if (failures.length > 0) {
+        console.warn('Some files failed to upload:', failures);
+        toast.error("Some files couldn't be uploaded", {
+          description: "Your account was created, but you may need to re-upload some files later."
+        });
+      }
+    }
+  };
 
   const handleGoogleSignUp = async () => {
     setIsGoogleLoading(true);
@@ -92,7 +143,7 @@ const AccountCreationStep: React.FC<AccountCreationStepProps> = ({
     setIsLoading(true);
 
     try {
-      // Create account with Supabase Auth - no email confirmation required for immediate sign in
+      // Create account with Supabase Auth
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
         password,
@@ -115,6 +166,14 @@ const AccountCreationStep: React.FC<AccountCreationStepProps> = ({
 
       if (authData.user) {
         console.log("User created successfully:", authData.user.id);
+        
+        // Upload files to storage
+        try {
+          await uploadUserFiles(authData.user.id);
+        } catch (uploadError) {
+          console.error("File upload error:", uploadError);
+          // Continue with account creation even if file uploads fail
+        }
         
         // Wait a moment for the auth state to settle
         await new Promise(resolve => setTimeout(resolve, 1000));
@@ -175,7 +234,7 @@ const AccountCreationStep: React.FC<AccountCreationStepProps> = ({
         }
 
         toast.success("Account created successfully!", {
-          description: "You're now signed in and ready to use SwapSpot. Email verification is only needed for chat groups."
+          description: "You're now signed in and ready to use SwapSpot. Files are being uploaded to your profile."
         });
         
         onAccountCreated();
@@ -197,6 +256,14 @@ const AccountCreationStep: React.FC<AccountCreationStepProps> = ({
         if (!user) {
           toast.error("Authentication error - please log in again");
           return;
+        }
+
+        // Upload files to storage
+        try {
+          await uploadUserFiles(user.id);
+        } catch (uploadError) {
+          console.error("File upload error:", uploadError);
+          // Continue with profile save even if file uploads fail
         }
 
         // Save to profiles table
@@ -268,7 +335,7 @@ const AccountCreationStep: React.FC<AccountCreationStepProps> = ({
         <div className="bg-green-50 border border-green-200 rounded-lg p-6">
           <h4 className="font-semibold text-green-800 mb-2">✅ All Set!</h4>
           <p className="text-sm text-green-700">
-            You're already signed in. We'll update your profile with the information you've provided.
+            You're already signed in. We'll update your profile with the information you've provided and upload your files.
           </p>
         </div>
 
@@ -282,71 +349,11 @@ const AccountCreationStep: React.FC<AccountCreationStepProps> = ({
             Previous
           </Button>
           <Button 
-            onClick={async () => {
-              setIsLoading(true);
-              try {
-                const { data: { user } } = await supabase.auth.getUser();
-                
-                if (!user) {
-                  toast.error("Authentication error - please log in again");
-                  return;
-                }
-
-                // Save to profiles table
-                const { error: profileError } = await supabase
-                  .from('profiles')
-                  .upsert({
-                    user_id: user.id,
-                    email: user.email || data.email,
-                    full_name: data.fullName,
-                    university: data.university,
-                    exchange_university: data.exchangeUniversity,
-                    program: data.program,
-                    start_date: data.startDate,
-                    end_date: data.endDate,
-                    current_location: data.currentLocation,
-                    current_address: data.currentAddress,
-                    budget: data.budget,
-                    preferred_destinations: data.preferredDestinations || [],
-                    apartment_description: data.apartmentDescription,
-                    verification_method: data.verificationMethod || 'email',
-                    university_email: data.universityEmail,
-                    additional_info: data.additionalInfo,
-                    has_uploaded_proof: data.hasUploadedProof || false,
-                    gdpr_consent: data.gdprConsent || false,
-                    updated_at: new Date().toISOString()
-                  }, {
-                    onConflict: 'user_id'
-                  });
-
-                if (profileError) {
-                  console.error("Error saving profile:", profileError);
-                  toast.error("Failed to save profile data");
-                  return;
-                }
-
-                // Send to Google Sheets
-                try {
-                  const completeData = { ...data, email: user.email || data.email };
-                  const formattedData = formatUserDataForSheet(completeData);
-                  await addUserToGoogleSheet(formattedData);
-                } catch (sheetsError) {
-                  console.error("Error sending to Google Sheets:", sheetsError);
-                }
-
-                toast.success("Profile updated successfully!");
-                onAccountCreated();
-              } catch (error) {
-                console.error("Error in saveProfile:", error);
-                toast.error("Failed to save profile data");
-              } finally {
-                setIsLoading(false);
-              }
-            }}
+            onClick={handleSaveProfile}
             disabled={isLoading}
             className="flex-1 h-12 bg-green-600 hover:bg-green-700 text-white font-medium"
           >
-            {isLoading ? "Saving..." : "Save Profile"}
+            {isLoading ? "Saving and uploading files..." : "Save Profile & Upload Files"}
           </Button>
         </div>
       </div>
@@ -504,7 +511,7 @@ const AccountCreationStep: React.FC<AccountCreationStepProps> = ({
                 disabled={isLoading || !email || !password || !fullName || password !== confirmPassword}
                 className="w-full h-12 bg-swap-blue hover:bg-swap-blue/90 text-white font-medium"
               >
-                {isLoading ? "Creating Account..." : "Create Account"}
+                {isLoading ? "Creating Account & Uploading Files..." : "Create Account"}
               </Button>
             </div>
           </div>
